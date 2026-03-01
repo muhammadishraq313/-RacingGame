@@ -12,6 +12,7 @@ const config = {
     enemySpeed: 3,
     maxLives: 3,
     maxGameSpeed: 8,
+    speedIncrement: 0.2,
     spawnIntervalReduction: 50,
     minSpawnInterval: 800
 };
@@ -50,9 +51,12 @@ const keys = {};
 
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || 
-        e.key === 'a' || e.key === 'd') {
-        e.preventDefault();
+    // Prevent default only for arrow keys and a/d without modifier keys (to avoid breaking browser shortcuts)
+    if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || 
+            e.key === 'a' || e.key === 'd') {
+            e.preventDefault();
+        }
     }
 });
 
@@ -234,7 +238,7 @@ function gameLoop(timestamp) {
     const currentMilestone = Math.floor(gameState.score / 100);
     if (currentMilestone > gameState.lastDifficultyIncrease) {
         gameState.lastDifficultyIncrease = currentMilestone;
-        gameState.gameSpeed = Math.min(gameState.gameSpeed + 0.2, config.maxGameSpeed);
+        gameState.gameSpeed = Math.min(gameState.gameSpeed + config.speedIncrement, config.maxGameSpeed);
         gameState.enemySpawnInterval = Math.max(gameState.enemySpawnInterval - config.spawnIntervalReduction, config.minSpawnInterval);
     }
     
