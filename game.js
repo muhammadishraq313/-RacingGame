@@ -10,7 +10,10 @@ const config = {
     roadLineHeight: 40,
     playerSpeed: 5,
     enemySpeed: 3,
-    maxLives: 3
+    maxLives: 3,
+    maxGameSpeed: 8,
+    spawnIntervalReduction: 50,
+    minSpawnInterval: 800
 };
 
 // Game state
@@ -229,10 +232,10 @@ function gameLoop(timestamp) {
     
     // Gradually increase difficulty at score milestones
     const currentMilestone = Math.floor(gameState.score / 100);
-    if (currentMilestone > gameState.lastDifficultyIncrease && gameState.score > 0) {
+    if (currentMilestone > gameState.lastDifficultyIncrease) {
         gameState.lastDifficultyIncrease = currentMilestone;
-        gameState.gameSpeed = Math.min(gameState.gameSpeed + 0.2, 8);
-        gameState.enemySpawnInterval = Math.max(gameState.enemySpawnInterval - 50, 800);
+        gameState.gameSpeed = Math.min(gameState.gameSpeed + 0.2, config.maxGameSpeed);
+        gameState.enemySpawnInterval = Math.max(gameState.enemySpawnInterval - config.spawnIntervalReduction, config.minSpawnInterval);
     }
     
     requestAnimationFrame(gameLoop);
