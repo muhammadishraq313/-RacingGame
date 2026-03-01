@@ -51,7 +51,7 @@ const keys = {};
 
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
-    // Prevent default only for arrow keys and a/d without modifier keys (to avoid breaking browser shortcuts)
+    // Prevent default only for arrow keys and A/D keys (lowercase in events) without modifier keys
     if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || 
             e.key === 'a' || e.key === 'd') {
