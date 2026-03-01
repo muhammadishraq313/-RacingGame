@@ -16,12 +16,12 @@ const config = {
 // Game state
 let gameState = {
     isRunning: false,
-    isPaused: false,
     score: 0,
     lives: config.maxLives,
     gameSpeed: 3,
     lastEnemySpawn: 0,
-    enemySpawnInterval: 1500
+    enemySpawnInterval: 1500,
+    lastDifficultyIncrease: 0
 };
 
 // Canvas setup
@@ -48,7 +48,7 @@ const keys = {};
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || 
-        e.key === 'a' || e.key === 'd' || e.key === ' ') {
+        e.key === 'a' || e.key === 'd') {
         e.preventDefault();
     }
 });
@@ -225,12 +225,14 @@ function gameLoop(timestamp) {
     if (timestamp - gameState.lastEnemySpawn > gameState.enemySpawnInterval) {
         spawnEnemy();
         gameState.lastEnemySpawn = timestamp;
-        
-        // Gradually increase difficulty
-        if (gameState.score > 0 && gameState.score % 100 === 0) {
-            gameState.gameSpeed = Math.min(gameState.gameSpeed + 0.2, 8);
-            gameState.enemySpawnInterval = Math.max(gameState.enemySpawnInterval - 50, 800);
-        }
+    }
+    
+    // Gradually increase difficulty at score milestones
+    const currentMilestone = Math.floor(gameState.score / 100);
+    if (currentMilestone > gameState.lastDifficultyIncrease && gameState.score > 0) {
+        gameState.lastDifficultyIncrease = currentMilestone;
+        gameState.gameSpeed = Math.min(gameState.gameSpeed + 0.2, 8);
+        gameState.enemySpawnInterval = Math.max(gameState.enemySpawnInterval - 50, 800);
     }
     
     requestAnimationFrame(gameLoop);
@@ -244,6 +246,7 @@ function startGame() {
     gameState.gameSpeed = 3;
     gameState.enemySpawnInterval = 1500;
     gameState.lastEnemySpawn = 0;
+    gameState.lastDifficultyIncrease = 0;
     
     enemies = [];
     initRoadLines();
