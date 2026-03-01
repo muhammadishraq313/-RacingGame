@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🏎️ Racing Game</h1>
+            <div class="game-info">
+                <div class="score-display">
+                    <span>Score: </span>
+                    <span id="score">0</span>
+                </div>
+                <div class="lives-display">
+                    <span>Lives: </span>
+                    <span id="lives">3</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-screen" class="game-screen">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div id="start-screen" class="screen">
+            <h2>Welcome to Racing Game!</h2>
+            <div class="instructions">
+                <h3>How to Play:</h3>
+                <ul>
+                    <li>Use <strong>Arrow Keys</strong> (← →) or <strong>A/D</strong> to move left and right</li>
+                    <li>Avoid the red enemy cars</li>
+                    <li>Survive as long as possible to increase your score</li>
+                    <li>You have 3 lives - don't crash!</li>
+                </ul>
+            </div>
+            <button id="start-btn" class="game-btn">Start Game</button>
+        </div>
+
+        <div id="game-over-screen" class="screen hidden">
+            <h2>Game Over!</h2>
+            <div class="final-score">
+                <p>Final Score: <span id="final-score">0</span></p>
+            </div>
+            <button id="restart-btn" class="game-btn">Play Again</button>
+        </div>
+    </div>
+
+    <div class="controls-hint">
+        <p>Controls: Arrow Keys (← →) or A/D</p>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
